@@ -1,75 +1,164 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Card Game</title>
 </head>
+
 <body>
 
-<section id="battle-screen">
+    <section id="battle-screen">
 
-    <!-- ========== 左エリア（手札・中央バトル） ========== -->
-    <div class="left-area">
+        <!-- ========== 左エリア（手札・中央バトル） ========== -->
+        <div class="left-area">
 
-        <!-- --- 上（敵側） --- -->
-        <div class="battle-top enemy">
-            <div class="player-area">
-                <div class="player-name">対戦相手</div>
-                <div class="score">
-                    <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+            <!-- --- 上（敵側） --- -->
+            <div class="battle-top enemy">
+                <div class="player-area">
+                    <div class="player-name">対戦相手</div>
+                    <div class="score">
+                        <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+                    </div>
+                </div>
+
+                <div class="hand-row">
+                    <div class="card-slot" id="enemySlot0">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="enemySlot1">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="enemySlot2">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="enemySlot3">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="enemySlot4">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="hand-row">
-                <div class="card-slot enemy" id="enemySlot0"></div>
-                <div class="card-slot enemy" id="enemySlot1"></div>
-                <div class="card-slot enemy" id="enemySlot2"></div>
-                <div class="card-slot enemy" id="enemySlot3"></div>
-                <div class="card-slot enemy" id="enemySlot4"></div>
+            <!-- --- 中央（縦並び） --- -->
+            <div class="battle-center-vertical">
+
+                <div class="card-slot" id="openEnemyCard">
+                    <div class="card-name-area"></div>
+                    <div class="card-power-area">
+                        <div class="base-power-area"></div>
+                        <div class="total-power-area"></div>
+                    </div>
+                </div>
+
+                <div class="card-slot" id="openMineCard">
+                    <div class="card-name-area"></div>
+                    <div class="card-power-area">
+                        <div class="base-power-area"></div>
+                        <div class="total-power-area"></div>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-        <!-- --- 中央（縦並び） --- -->
-        <div class="battle-center-vertical">
-            <div class="card-slot enemy"></div>
-            <div class="card-slot mine"></div>
-        </div>
 
-        <!-- --- 下（自分側） --- -->
-        <div class="battle-bottom mine">
-            <div class="player-area">
-                <div class="player-name">自分</div>
-                <div class="score">
-                    <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+            <!-- --- 下（自分側） --- -->
+            <div class="battle-bottom mine">
+                <div class="player-area">
+                    <div class="player-name">自分</div>
+                    <div class="score">
+                        <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+                    </div>
+                </div>
+
+                <div class="hand-row">
+                    <div class="card-slot" id="mineSlot0">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="mineSlot1">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="mineSlot2">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="mineSlot3">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-slot" id="mineSlot4">
+                        <div class="card-name-area"></div>
+                        <div class="card-power-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="hand-row">
-                <div class="card-slot mine" id="mineSlot0"></div>
-                <div class="card-slot mine" id="mineSlot1"></div>
-                <div class="card-slot mine" id="mineSlot2"></div>
-                <div class="card-slot mine" id="mineSlot3"></div>
-                <div class="card-slot mine" id="mineSlot4"></div>
-            </div>
         </div>
 
-    </div>
+        <!-- ========== 右エリア（ターン & ログ） ========== -->
+        <div class="right-area">
+            <div class="turn-display">1 / 5</div>
+            <div class="log-box"></div>
+        </div>
 
-    <!-- ========== 右エリア（ターン & ログ） ========== -->
-    <div class="right-area">
-        <div class="turn-display">1 / 5</div>
-        <div class="log-box"></div>
-    </div>
-
-</section>
-<script type="module"  src="js/config.js"></script>
-<script type="module"  src="js/card.js"></script>
-<script type="module"  src="js/game.js"></script>
-<script type="module"  src="js/main.js"></script>
-<script type="module"  src="js/player.js"></script>
-<script type="module"  src="js/utils.js"></script>
+    </section>
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/card.js"></script>
+    <script type="module" src="js/player.js"></script>
+    <script type="module" src="js/game.js"></script>
+    <script type="module" src="js/main.js"></script>
 
 </body>
+
 </html>

@@ -5,10 +5,10 @@ body {
     background: #f7f7f7;
 }
 
-/* ===== 全体を左右 7:3 に分割 ===== */
+/* ===== 全体を左右 6:4 に分割 ===== */
 #battle-screen {
     display: grid;
-    grid-template-columns: 6fr 4fr;  /* ← 7:3 → 6:4 に変更 */
+    grid-template-columns: 6fr 4fr;
     column-gap: 40px;
     height: 100vh;
     overflow: hidden;
@@ -21,6 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    margin-left: 60px;  /* 左の余白 */
 }
 
 /* ====== 共通UI ====== */
@@ -39,26 +40,37 @@ body {
     gap: 20px;
 }
 
-/* カード枠 */
+/* ===== カード枠（外枠）===== */
 .card-slot {
     width: 120px;
     height: 160px;
     border: 4px solid #000;
     background: white;
-}
 
-/* クラスごとの色など後でつけられる */
-.card-slot.enemy { }
-.card-slot.mine { }
-
-.battle-center-vertical {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    margin-left: 70px;
 }
 
+/* ===== カード内部レイアウト ===== */
+.card-name-area {
+    flex: 1 1 50%;
+    border-bottom: 2px solid #000;
+}
+
+.card-power-area {
+    flex: 1 1 50%;
+    display: flex;
+}
+
+.base-power-area,
+.total-power-area {
+    flex: 1;
+    border-right: 2px solid #000;
+}
+
+.total-power-area {
+    border-right: none;
+}
 
 /* ====== 上（敵側） ===== */
 .battle-top {
@@ -66,6 +78,7 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    padding-left: 40px;   /* 左余白を追加 */
 }
 
 /* ====== 下（自分側） ===== */
@@ -74,20 +87,19 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    padding-left: 40px;   /* 左余白を追加 */
 }
 
-/* ====== 右エリア（ターン & ログ） ===== */
-.left-area {
+/* ====== 中央バトル（縦並び） ===== */
+.battle-center-vertical {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    margin-left: 60px;   /* ← NEW! 左の余白を追加してバランス改善 */
+    align-items: center;
+    gap: 30px;
+    margin-left: 70px;  /* 中央ずれ調整 */
 }
 
-.player-area {
-    margin-bottom: 10px;
-}
-
+/* ====== 右エリア（ターン数 & ログ） ===== */
 .turn-display {
     font-size: 32px;
     font-weight: bold;
@@ -99,9 +111,4 @@ body {
     height: 500px;
     border: 4px solid red;
     background: white;
-}
-
-.battle-top,
-.battle-bottom {
-    padding-left: 40px;   /* ← NEW! プレイヤー名＋手札の左余白 */
 }

@@ -1,1 +1,69 @@
-hello
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Card Game</title>
+</head>
+<body>
+
+<section id="battle-screen">
+
+    <!-- ========== 左エリア（手札・中央バトル） ========== -->
+    <div class="left-area">
+
+        <!-- --- 上（敵側） --- -->
+        <div class="battle-top enemy">
+            <div class="player-area">
+                <div class="player-name">対戦相手</div>
+                <div class="score">
+                    <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+                </div>
+            </div>
+
+            <div class="hand-row">
+                <div class="card-slot enemy"></div>
+                <div class="card-slot enemy"></div>
+                <div class="card-slot enemy"></div>
+                <div class="card-slot enemy"></div>
+                <div class="card-slot enemy"></div>
+            </div>
+        </div>
+
+        <!-- --- 中央（縦並び） --- -->
+        <div class="battle-center-vertical">
+            <div class="card-slot enemy"></div>
+            <div class="card-slot mine"></div>
+        </div>
+
+        <!-- --- 下（自分側） --- -->
+        <div class="battle-bottom mine">
+            <div class="player-area">
+                <div class="player-name">自分</div>
+                <div class="score">
+                    <span>○</span><span>○</span><span>○</span><span>○</span><span>○</span>
+                </div>
+            </div>
+
+            <div class="hand-row">
+                <div class="card-slot mine"></div>
+                <div class="card-slot mine"></div>
+                <div class="card-slot mine"></div>
+                <div class="card-slot mine"></div>
+                <div class="card-slot mine"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ========== 右エリア（ターン & ログ） ========== -->
+    <div class="right-area">
+        <div class="turn-display">1 / 5</div>
+        <div class="log-box"></div>
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: sans-serif;
+    background: #f7f7f7;
+}
+
+/* ===== 全体を左右 7:3 に分割 ===== */
+#battle-screen {
+    display: grid;
+    grid-template-columns: 6fr 4fr;  /* ← 7:3 → 6:4 に変更 */
+    column-gap: 40px;
+    height: 100vh;
+    overflow: hidden;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ===== 左エリア ===== */
+.left-area {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* ====== 共通UI ====== */
+.player-name {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.score span {
+    margin: 0 3px;
+    font-size: 20px;
+}
+
+.hand-row {
+    display: flex;
+    gap: 20px;
+}
+
+/* カード枠 */
+.card-slot {
+    width: 120px;
+    height: 160px;
+    border: 4px solid #000;
+    background: white;
+}
+
+/* クラスごとの色など後でつけられる */
+.card-slot.enemy { }
+.card-slot.mine { }
+
+.battle-center-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-left: 70px;
+}
+
+
+/* ====== 上（敵側） ===== */
+.battle-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ====== 下（自分側） ===== */
+.battle-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ====== 右エリア（ターン & ログ） ===== */
+.left-area {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-left: 60px;   /* ← NEW! 左の余白を追加してバランス改善 */
+}
+
+.player-area {
+    margin-bottom: 10px;
+}
+
+.turn-display {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* ログ枠 */
+.log-box {
+    width: 220px;
+    height: 500px;
+    border: 4px solid red;
+    background: white;
+}
+
+.battle-top,
+.battle-bottom {
+    padding-left: 40px;   /* ← NEW! プレイヤー名＋手札の左余白 */
+}

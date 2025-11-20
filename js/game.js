@@ -8,7 +8,7 @@ export function start() {
 
     // TODO カード選択フェーズ
     // スタブ処理として、拡張var1のカード5枚を選択とする
-    enemyHand.push(Stab.choiceCards());
-    mineHand.push(Stab.choiceCards());
+    enemyHand = Stab.choiceCards();
+    mineHand = Stab.choiceCards();
 
 }

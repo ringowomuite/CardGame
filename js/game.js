@@ -1,5 +1,6 @@
 import * as Config from "./config.js";
 import * as Stab from "./stab.js";
+import * as UI from "./ui.js";
 
 let enemyHand = [];
 let mineHand = [];
@@ -23,6 +24,11 @@ function callStandByPhase() {
     // スタブ処理として、拡張var1のカード5枚を選択とする
     enemyHand = Stab.choiceCards();
     mineHand = Stab.choiceCards();
+
+    // カード表示
+    // mineHand[1] = null;
+    UI.renderHand(mineHand, Config.MINE);
+    UI.renderHand(enemyHand, Config.ENEMY);
     console.log("スタンバイフェーズを終了します");
 }
 

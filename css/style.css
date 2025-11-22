@@ -3,6 +3,7 @@ body {
     padding: 20px;
     font-family: sans-serif;
     background: #f7f7f7;
+    overflow: hidden;
 }
 
 /* ===== 全体レイアウト（左6：右4） ===== */
@@ -116,14 +117,18 @@ body {
 }
 
 /* ====== 右エリア ===== */
+.right-area {
+    height: 100%;
+}
+
 .turn-display {
+    text-align: center;
     font-size: 32px;
     font-weight: bold;
 }
 
 .log-box {
-    width: 220px;
-    height: 500px;
+    height: 90%;
     border: 4px solid red;
     background: white;
 }

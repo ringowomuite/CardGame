@@ -1,47 +1,83 @@
-import * as Config from "./config.js";
-import * as Stab from "./stab.js";
+import * as CONFIG from "./config.js";
+import * as STAB from "./stab.js";
 import * as UI from "./ui.js";
 
-let enemyHand = [];
-let mineHand = [];
+// 手札
+export let enemyHand = [];
+export let mineHand = [];
 
-export async function start() {
+// 勝利ポイント
+export let minePoint = 0;
+export let enemyPoint = 0;
 
-    // スタンバイフェーズを呼び出す
-    callStandByPhase();
-    // バトルフェーズを呼び出す
-    await callBattlePhase();
-    // エンドフェーズを呼び出す
-    callEndPhase();
+// ターン
+export let turn = 1;
 
+/**
+ * ゲーム開始時に 1 度だけ呼ばれる
+ * 手札作成 + UI 反映のみ
+ */
+export function setupGame() {
+    UI.addLog(CONFIG.GAME_START);
+
+    // 固定のカード5枚配布（スタブ）
+    enemyHand = STAB.choiceCards();
+    mineHand = STAB.choiceCards();
+
+    // UI 反映
+    UI.renderHand(mineHand, CONFIG.MINE);
+    UI.renderHand(enemyHand, CONFIG.ENEMY);
+
+    UI.addLog(CONFIG.HAND_SET_END);
 }
 
-// スタンバイフェーズ呼び出し
-function callStandByPhase() {
-    console.log("スタンバイフェーズに入りました");
+export async function cardJudge(mineCard, enemyCard, mineIndex, enemyIndex) {
+    const minePower = mineCard.base;
+    const enemyPower = enemyCard.base;
 
-    // TODO カード選択フェーズ
-    // スタブ処理として、拡張var1のカード5枚を選択とする
-    enemyHand = Stab.choiceCards();
-    mineHand = Stab.choiceCards();
+    // カード削除（nullを入れる）
+    mineHand[mineIndex] = null;
+    UI.renderHand(mineHand, CONFIG.MINE);
+    enemyHand[enemyIndex] = null;
+    UI.renderHand(enemyHand, CONFIG.ENEMY);
+    
+    // ★ 0.5秒待つ
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-    // カード表示
-    // mineHand[1] = null;
-    UI.renderHand(mineHand, Config.MINE);
-    UI.renderHand(enemyHand, Config.ENEMY);
-    console.log("スタンバイフェーズを終了します");
+    if (minePower > enemyPower) {
+        // 得点の変更、表示、ログ出力
+        minePoint++;
+        UI.updatePoint(minePoint, CONFIG.MINE);
+        alert(CONFIG.CARD_JUDGE_WIN("あなた"));
+        UI.addLog(CONFIG.CARD_JUDGE_WIN("あなた"));
+    } else if (minePower < enemyPower) {
+        // 得点の変更、表示、ログ出力
+        enemyPoint++;
+        UI.updatePoint(enemyPoint, CONFIG.ENEMY);
+        alert(CONFIG.CARD_JUDGE_WIN("あいて"));
+        UI.addLog(CONFIG.CARD_JUDGE_WIN("あいて"));
+    } else {
+        alert(CONFIG.CARD_JUDGE_DROW);
+        UI.addLog(CONFIG.CARD_JUDGE_DROW);
+    }
+
+    // ターン表示更新
+    UI.updateTurn(++turn);
+    // 次ターンへ…
 }
 
-// バトルフェーズ呼び出し
-function callBattlePhase() {
-    console.log("バトルフェーズに入りました");
+export function endGame() {
+    
+    UI.addLog(CONFIG.GAME_END);
 
-    console.log("バトルフェーズを終了します");
-}
-
-// エンドフェーズ呼び出し
-function callEndPhase() {
-    console.log("エンドフェーズに入りました");
-
-    console.log("エンドフェーズを終了します");
+    if (minePoint > enemyPoint) {
+        // alert(CONFIG.BATTLE_JUDGE_WIN("あなた"));
+        UI.addLog(CONFIG.BATTLE_JUDGE_WIN("あなた", minePoint, enemyPoint));
+    } else if (minePoint < enemyPoint) {
+        // alert(CONFIG.BATTLE_JUDGE_WIN("あいて"));
+        UI.addLog(CONFIG.BATTLE_JUDGE_WIN("あいて", minePoint, enemyPoint));
+    } else {
+        // alert(CONFIG.BATTLE_JUDGE_DROW);
+        UI.addLog(CONFIG.BATTLE_JUDGE_DROW("あなた", minePoint, enemyPoint));
+    }
 }

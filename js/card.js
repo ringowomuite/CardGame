@@ -5,3 +5,11 @@ export const cards = [
   { id: 4, name: "クアドラプル", base: 4, type: "none" },
   { id: 5, name: "クインタプル", base: 5, type: "none" },
 ];
+
+export const cards2 = [
+  { id: 1, name: "セクスタプル", base: 6, type: "none" },
+  { id: 2, name: "セクスタプル", base: 6, type: "none" },
+  { id: 3, name: "セクスタプル", base: 6, type: "none" },
+  { id: 4, name: "セクスタプル", base: 6, type: "none" },
+  { id: 5, name: "セクスタプル", base: 6, type: "none" },
+];

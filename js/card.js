@@ -1,6 +1,6 @@
 export const cards = [
   {
-    id: 1, name: "シングル", base: 1, type: "none",
+    id: 1, name: "シングルああああああああ", base: 1, type: "none",
     skill: {
       target_player: "mine",
       target_card: "openCard",

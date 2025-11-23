@@ -11,3 +11,11 @@ export function choiceCards2() {
     // 1枚ずつ {...card} で独立オブジェクトにする
     return CARD.cards2.map(card => ({ ...card }));
 }
+
+export const gameState = {
+    turn: 1,
+    minePoint: 0,
+    enemyPoint: 0,
+    mineHand: [],
+    enemyHand: [],
+};

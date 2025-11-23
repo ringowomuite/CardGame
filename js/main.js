@@ -1,6 +1,9 @@
 import * as CONFIG from "./config.js";
 import * as GAME from "./game.js";
 import * as UI from "./ui.js";
+import * as STAB from "./stab.js";
+
+document.getElementById("retryButton").addEventListener("click", GAME.retryBattle);
 
 document.addEventListener("DOMContentLoaded", async () => {
     UI.addLog(CONFIG.INIT_START);
@@ -23,5 +26,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ゲーム開始
     GAME.setupGame();
 
-    UI.addLog(CONFIG.TURN_DISP(GAME.turn));
+    UI.addLog(CONFIG.TURN_DISP(STAB.gameState.turn));
 });

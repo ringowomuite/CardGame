@@ -1,6 +1,9 @@
 import * as CONFIG from "./config.js";
 import * as STAB from "./stab.js";
 import * as UI from "./ui.js";
+import { applySkill } from "./skill.js";
+
+
 
 // 手札
 export let enemyHand = [];
@@ -22,7 +25,7 @@ export function setupGame() {
 
     // 固定のカード5枚配布（スタブ）
     enemyHand = STAB.choiceCards();
-    mineHand = STAB.choiceCards();
+    mineHand = STAB.choiceCards2();
 
     // UI 反映
     UI.renderHand(mineHand, CONFIG.MINE);
@@ -32,13 +35,17 @@ export function setupGame() {
 }
 
 export async function cardJudge(mineCard, enemyCard, mineIndex, enemyIndex) {
-    const minePower = mineCard.base;
-    const enemyPower = enemyCard.base;
 
-    // カード削除（nullを入れる）
-    mineHand[mineIndex] = null;
+    // processDecision 内
+    const minePower = applySkill(mineCard, "mine");
+    const enemyPower = applySkill(enemyCard, "enemy");
+
+    // 使用済みフラグを付与する
+    mineHand[mineIndex].used = true;
+    enemyHand[enemyIndex].used = true;
+
+    // UI 更新
     UI.renderHand(mineHand, CONFIG.MINE);
-    enemyHand[enemyIndex] = null;
     UI.renderHand(enemyHand, CONFIG.ENEMY);
 
     // ★ 0.5秒待つ
@@ -93,6 +100,9 @@ export function endGame() {
     } else {
         UI.addLog(CONFIG.BATTLE_JUDGE_DROW(UI.MINE_NAME, minePoint, enemyPoint));
     }
+    
+    // ★ バトル終了後はカード全てを使用不可 & 半透明にする
+    UI.disableAllHandCards();
 }
 
 export function processDecision() {

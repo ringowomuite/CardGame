@@ -12,6 +12,7 @@ export const INIT_START = "初期化処理開始";
 export const INIT_END = "初期化処理終了";
 export const GAME_START = "===ゲーム開始===";
 export const GAME_END = "===ゲーム終了===";
+export const GAME_START_NEW = "=== 新しいバトルを開始 ===";
 export const HAND_SET_END = "手札セット完了";
 export const CONFIRM_DECISION = "これで決定しますか？";
 

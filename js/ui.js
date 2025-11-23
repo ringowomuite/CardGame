@@ -189,3 +189,19 @@ export function disableAllHandCards() {
         btn.classList.remove("active");
     }
 }
+
+export function clearLog() {
+    document.querySelector(".log-box").innerHTML = "";
+}
+
+export function hideRetryButton() {
+    document.getElementById("retryButton").style.visibility = "hidden";
+}
+
+export function enableAllHandCards() {
+    document.querySelectorAll(".mine .card-slot").forEach(el => {
+        el.style.opacity = 1;
+        el.disabled = false;
+        el.classList.remove("used");
+    });
+}

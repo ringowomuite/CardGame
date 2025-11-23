@@ -2,6 +2,11 @@ import * as CONFIG from "./config.js";
 import * as UI from "./ui.js";
 import * as GAME from "./game.js";
 
+let mineNameElement = document.getElementById("mineName");
+let enemyNameElement = document.getElementById("enemyName");
+export const MINE_NAME = mineNameElement.textContent;
+export const ENEMY_NAME = enemyNameElement.textContent;
+
 // 手札5枚をUIに描写する(スタンバイフェーズ)
 // 使用できるカードのみを描写
 export function renderHand(hand, playerType) {
@@ -62,20 +67,10 @@ export function updatePoint(point, playerType) {
         if (spans[i]) spans[i].textContent = "●";
     }
 
-    // どちらかのポイントが3でゲーム終了
-    if (point === CONFIG.WIN_POINT) {
-        GAME.endGame();
-        return;
-    }
 }
 
 // ターン数更新
 export function updateTurn(afterTurn) {
-    // 全ターン終了でゲーム終了
-    if (afterTurn > CONFIG.MAX_TURN) {
-        GAME.endGame();
-        return;
-    }
 
     let beforeTurnArea = document.getElementById("turn");
     UI.addLog(CONFIG.TURN_DISP(afterTurn));
@@ -110,7 +105,6 @@ export function setupMineCardClickEvents() {
             // すでにこのカードが選択されていた → 解除
             if (selectedMineIndex === i) {
                 clearMineSelection();
-                enableDecisionButton(false);
                 return;
             }
 
@@ -125,10 +119,11 @@ export function setupMineCardClickEvents() {
 
 // 以前選択していた情報を削除する
 export function clearMineSelection() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
         document.getElementById(`mineSlot${i}`).classList.remove("selected");
     }
     selectedMineIndex = null;
+    enableDecisionButton(false);
 }
 
 export function getSelectedMineIndex() {

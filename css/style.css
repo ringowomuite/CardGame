@@ -1,103 +1,30 @@
+/* 全体レイアウト */
 body {
     margin: 0;
-    padding: 20px;
+    padding-right: 10px;
     font-family: sans-serif;
     background: #f7f7f7;
-    overflow: hidden;
 }
 
-/* ===== 全体レイアウト（左6：右4） ===== */
 #battle-screen {
     display: grid;
     grid-template-columns: 6fr 4fr;
-    column-gap: 40px;
+    column-gap: 20px;
     height: 100vh;
-    overflow: hidden;
     align-items: center;
     box-sizing: border-box;
 }
 
-/* ===== 左エリア ===== */
+/* 左エリア */
 .left-area {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 40px;
+    gap: 20px;
     margin-left: 60px;
 }
 
-/* ====== 共通UI ====== */
-.player-name {
-    font-size: 22px;
-    margin-bottom: 5px;
-}
-
-.player-area {
-    min-width: 200px;
-    max-width: 200px;
-    border: 4px solid #000;
-    text-align: center;
-}
-
-.score span {
-    margin: 0 3px;
-    font-size: 20px;
-}
-
-.hand-row {
-    display: flex;
-    gap: 20px;
-}
-
-/* ===== カード枠 ===== */
-.card-slot {
-    width: 120px;
-    height: 160px;
-    border: 4px solid #000;
-    background: white;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    padding: 5px;
-}
-
-.mine .hand-row .card-slot {
-    cursor: pointer;
-}
-
-/* ===== カード内部 ===== */
-.card-name-area {
-    flex: 1 1 50%;
-    border-bottom: 2px solid #000;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-}
-
-.card-power-area {
-    flex: 1 1 50%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.base-power-area,
-.total-power-area {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.base-power-area {
-    border-right: 2px solid #000;
-}
-
-/* ====== 敵 / 自分エリア ===== */
+/* 左エリア　上・下エリア */
 .battle-top,
 .battle-bottom {
     display: flex;
@@ -107,33 +34,145 @@ body {
     padding-left: 40px;
 }
 
-/* ====== 中央バトルエリア ===== */
+/* 左エリア　プレイヤーエリア */
+.player-area {
+    min-width: 200px;
+    max-width: 200px;
+    border: 4px solid #000;
+    text-align: center;
+}
+
+.player-name {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.score span {
+    margin: 0 3px;
+    font-size: 20px;
+}
+
+/* 左エリア　手札エリア */
+.hand-row {
+    display: flex;
+    gap: 20px;
+}
+
+
+/* 左エリア　手札エリア　カードエリア */
+.card-slot {
+    width: 140px;
+    height: 200px;
+    border: 4px solid #000;
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    cursor: pointer;
+    padding: 5px;
+}
+
+.card-slot.selected {
+    border-color: #00aaff;
+}
+
+.card-name-area {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+
+    height: 40px;              /* 名前エリアの高さ（調整可） */
+    padding: 0 4px;
+    border-bottom: 2px solid #000;
+    overflow: hidden;
+
+    display: flex;             /* ★ 上下中央のための flex */
+    align-items: center;       /* ★ 上下中央揃え */
+    justify-content: center;   /* 横方向も中央 */
+    
+    line-height: 1.2;
+    word-break: break-word;    /* 長い語は折る */
+}
+
+.card-skill-area {
+    flex: 1;
+    border: 2px solid red;
+    margin: 5px 0;
+    padding: 3px;
+    font-size: 14px;
+    white-space: pre-line;
+    overflow: hidden;
+}
+
+.card-bottom-area {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.base-power-area,
+.total-power-area {
+    width: 40px;
+    height: 24px;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 左エリア　中央エリア */
 .battle-center-vertical {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
-    margin-left: 260px;
+    gap: 20px;
 }
 
-/* ====== 右エリア ===== */
-.right-area {
+/* 左エリア　中央エリア　アクションエリア・選択エリア */
+.battle-left-area,
+.battle-right-area {
     height: 100%;
-}
-
-.turn-display {
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.log-box {
-    height: 90%;
+    width: 37.8%;
     border: 4px solid red;
-    background: white;
 }
 
-/* ===== 決定ボタン（プレイヤー得点の下） ===== */
+.battle-right-area button,
+.battle-left-area button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 4px solid #000;
+    width: 150px;
+    background: #fff;
+}
+
+.action-panel {
+    display: flex;
+    gap: 28px;    
+}
+
+.help-area,
+.action-text-area {
+    height: 88.4%;
+}
+
+/* 左エリア　中央エリア　アクションエリア */
+.battle-left-area {
+    visibility: hidden;
+}
+
+/* 左エリア　中央エリア　オープンエリア */
+.battle-center-wrapper {
+    height: 452px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;          /* カードとボタンの間の余白調整 */
+    margin-left: 268px;
+}
+
+/* 左エリア　中央エリア　選択エリア */
 .battle-bottom button#cardDecision {
     margin-top: 15px;
     align-self: center;
@@ -150,7 +189,23 @@ body {
     opacity: 1.0;
 }
 
-/* ===== 選択中カード ===== */
-.card-slot.selected {
-    border-color: #00aaff;
+
+/* 右エリア */
+.right-area {
+    height: 100%;
 }
+
+.turn-display {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.log-box {
+    height: 90%;
+    border: 4px solid red;
+    background: white;
+    white-space: pre-line;
+}
+
+/* ここまで */

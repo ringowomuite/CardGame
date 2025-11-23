@@ -25,10 +25,12 @@
                 </div>
 
                 <div class="hand-row">
+
+                    <!-- 敵手札 5枚 -->
                     <div class="card-slot" id="enemySlot0">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -37,7 +39,7 @@
                     <div class="card-slot" id="enemySlot1">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -46,7 +48,7 @@
                     <div class="card-slot" id="enemySlot2">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -55,7 +57,7 @@
                     <div class="card-slot" id="enemySlot3">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -64,7 +66,7 @@
                     <div class="card-slot" id="enemySlot4">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -73,24 +75,46 @@
                 </div>
             </div>
 
-            <!-- --- 中央（縦並び） --- -->
-            <div class="battle-center-vertical">
-
-                <div class="card-slot" id="openEnemyCard">
-                    <div class="card-name-area"></div>
-                    <div class="card-skill-area"></div>
-                    <div class="card-power-area">
-                        <div class="base-power-area"></div>
-                        <div class="total-power-area"></div>
+            <!-- 中央エリア全域 -->
+            <div class="battle-center-wrapper">
+                <div class="battle-left-area">
+                    <div class="action-text-area"></div>
+                    <div class="action-panel">
+                        <button id="actionOK">決定</button>
+                        <button id="actionCancel">キャンセル</button>
                     </div>
                 </div>
+                <!-- --- 中央（縦並び） --- -->
+                <div class="battle-center-vertical">
 
-                <div class="card-slot" id="openMineCard">
-                    <div class="card-name-area"></div>
-                    <div class="card-skill-area"></div>
-                    <div class="card-power-area">
-                        <div class="base-power-area"></div>
-                        <div class="total-power-area"></div>
+                    <!-- 敵オープンカード -->
+                    <div class="card-slot" id="openEnemyCard">
+                        <div class="card-name-area"></div>
+                        <div class="card-skill-area"></div>
+                        <div class="card-bottom-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                    <!-- 自分オープンカード -->
+                    <div class="card-slot" id="openMineCard">
+                        <div class="card-name-area"></div>
+                        <div class="card-skill-area"></div>
+                        <div class="card-bottom-area">
+                            <div class="base-power-area"></div>
+                            <div class="total-power-area"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 右：ボタン縦2段 -->
+                <div class="battle-right-area">
+                    <div class="help-area"></div>
+                    <div class="action-panel">
+                        <button id="retryButton">再戦</button>
+                        <button id="cardDecision">カード決定</button>
                     </div>
                 </div>
 
@@ -103,15 +127,15 @@
                     <div class="score">
                         <span>○</span><span>○</span><span>○</span>
                     </div>
-                    <!-- ★ ここ（ポイントの真下） -->
-                    <button id="cardDecision" disabled>決定</button>
                 </div>
 
                 <div class="hand-row">
+
+                    <!-- 自分手札 5枚 -->
                     <div class="card-slot" id="mineSlot0">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -120,7 +144,7 @@
                     <div class="card-slot" id="mineSlot1">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -129,7 +153,7 @@
                     <div class="card-slot" id="mineSlot2">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -138,7 +162,7 @@
                     <div class="card-slot" id="mineSlot3">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
@@ -147,16 +171,14 @@
                     <div class="card-slot" id="mineSlot4">
                         <div class="card-name-area"></div>
                         <div class="card-skill-area"></div>
-                        <div class="card-power-area">
+                        <div class="card-bottom-area">
                             <div class="base-power-area"></div>
                             <div class="total-power-area"></div>
                         </div>
                     </div>
-
+                    
                 </div>
-
             </div>
-
         </div>
 
         <!-- ========== 右エリア（ターン & ログ） ========== -->
@@ -166,6 +188,7 @@
         </div>
 
     </section>
+
     <script type="module" src="js/config.js"></script>
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/card.js"></script>

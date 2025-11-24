@@ -13,9 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // オープンカード選択ボタンイベント作成
     document.getElementById("cardDecision").addEventListener("click", () => {
-        if (confirm(CONFIG.CONFIRM_DECISION)) {
-            GAME.processDecision();
-        }
+        GAME.processDecision();
     });
 
     // ここに初期表示・初期設定などを書く

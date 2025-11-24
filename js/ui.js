@@ -122,6 +122,7 @@ export function setupMineCardClickEvents() {
             // すでにこのカードが選択されていた → 解除
             if (selectedMineIndex === i) {
                 clearMineSelection();
+                hideActionArea();
                 return;
             }
 
@@ -129,6 +130,9 @@ export function setupMineCardClickEvents() {
             clearMineSelection();
             slot.classList.add("selected");
             selectedMineIndex = i;
+
+            // ★ これを追加 ★
+            showActionArea();
             enableDecisionButton(true);
         });
     }
@@ -141,6 +145,7 @@ export function clearMineSelection() {
     }
     selectedMineIndex = null;
     enableDecisionButton(false);
+    hideActionArea();
 }
 
 export function getSelectedMineIndex() {
@@ -204,4 +209,17 @@ export function enableAllHandCards() {
         el.disabled = false;
         el.classList.remove("used");
     });
+}
+
+export function showActionArea(type = "card") {
+    switch (type) {
+        case "card":
+            document.getElementById("actionTextArea").textContent = CONFIG.CARD_DECISION;
+    }
+    document.querySelector(".battle-left-area").style.visibility = "visible";
+}
+
+export function hideActionArea() {
+    document.getElementById("actionTextArea").textContent = "";
+    document.querySelector(".battle-left-area").style.visibility = "hidden";
 }

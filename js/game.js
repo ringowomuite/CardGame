@@ -43,8 +43,8 @@ export async function cardJudge(mineCard, enemyCard, mineIndex, enemyIndex) {
     UI.renderHand(gameState.mineHand, CONFIG.MINE);
     UI.renderHand(gameState.enemyHand, CONFIG.ENEMY);
 
-    // 0.5秒待つ
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // 2秒待つ
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     if (minePower > enemyPower) {
         addPoint(CONFIG.MINE, UI.MINE_NAME);

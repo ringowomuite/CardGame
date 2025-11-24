@@ -19,6 +19,7 @@ export function renderHand(hand, playerType) {
         if (!slot) return;
 
         setHandSlot(slot, card);
+        slot.classList.add("star" + card.star);
 
         // 使用済みなら非活性
         if (card.used) {
@@ -51,6 +52,9 @@ export function renderOpenCard(card, playerType) {
     const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
     const openCard = document.getElementById(`open${key}Card`);
 
+    openCard.classList.remove("no-hover");
+    openCard.classList.add("star" + card.star);
+
     setOpenCardFields(openCard, card, playerType);
 }
 
@@ -58,6 +62,9 @@ export function renderOpenCard(card, playerType) {
 export function clearOpenArea(playerType) {
     const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
     const openCard = document.getElementById(`open${key}Card`);
+
+    openCard.classList.add("no-hover");
+    openCard.classList.remove("star1", "star2", "star3", "star4", "star5");
 
     setOpenCardFields(openCard, null, playerType);
 }

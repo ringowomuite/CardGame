@@ -209,3 +209,45 @@ body {
 }
 
 /* ここまで */
+
+/* ☆1〜5：枠色 */
+.card-slot.star1 { border-color: #777; }
+.card-slot.star2 { border-color: #4caf50; }
+.card-slot.star3 { border-color: #2196f3; }
+.card-slot.star4 { border-color: #9c27b0; }
+.card-slot.star5 { border-color: #ff9800; }
+
+/* 背景の軽いグラデ */
+.card-slot.star1 {
+    background: linear-gradient(135deg, #fff, #f9f9f9);
+}
+.card-slot.star2 {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+.card-slot.star3 {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+}
+.card-slot.star4 {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+}
+.card-slot.star5 {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+}
+
+/* hoverの軽い浮き */
+.card-slot:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    transition: 0.15s;
+}
+
+.card-slot.selected {
+  border:4px solid #00c8ff;
+  box-shadow:0 0 12px #00eaff;
+}
+
+.no-hover:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}

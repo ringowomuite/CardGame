@@ -1,7 +1,7 @@
 export const decks = {
  normal: [
   {
-    id: 1, name: "シングルああああああああ", base: 1, type: "none",
+    id: 1, name: "シングルああああああああ", base: 1, type: "none", star: 1,
     skill: {
       target_player: "mine",
       target_card: "openCard",
@@ -11,7 +11,7 @@ export const decks = {
     }
   },
   {
-    id: 2, name: "ダブル", base: 2, type: "none",
+    id: 2, name: "ダブル", base: 2, type: "none", star: 1,
     skill: {
       target_player: "mine",
       target_card: "openCard",
@@ -21,7 +21,7 @@ export const decks = {
     }
   },
   {
-    id: 3, name: "トリプル", base: 3, type: "none",
+    id: 3, name: "トリプル", base: 3, type: "none", star: 2,
     skill: {
       target_player: "mine",
       target_card: "openCard",
@@ -31,7 +31,7 @@ export const decks = {
     }
   },
   {
-    id: 4, name: "クアドラプル", base: 4, type: "none",
+    id: 4, name: "クアドラプル", base: 4, type: "none", star: 2,
     skill: {
       target_player: "mine",
       target_card: "openCard",
@@ -41,7 +41,7 @@ export const decks = {
     }
   },
   {
-    id: 5, name: "クインタプル", base: 5, type: "none",
+    id: 5, name: "クインタプル", base: 5, type: "none", star: 3,
     skill: {
       target_player: "mine",
       target_card: "openCard",
@@ -53,11 +53,11 @@ export const decks = {
 ],
 
 max: [
-  { id: 1, name: "セクスタプル", base: 6, type: "none" },
-  { id: 2, name: "セクスタプル", base: 6, type: "none" },
-  { id: 3, name: "セクスタプル", base: 6, type: "none" },
-  { id: 4, name: "セクスタプル", base: 6, type: "none" },
-  { id: 5, name: "セクスタプル", base: 6, type: "none" },
+  { id: 1, name: "セクスタプル", base: 6, type: "none", star: 3, },
+  { id: 2, name: "セクスタプル", base: 6, type: "none", star: 3, },
+  { id: 3, name: "セクスタプル", base: 6, type: "none", star: 3, },
+  { id: 4, name: "セクスタプル", base: 6, type: "none", star: 3, },
+  { id: 5, name: "セクスタプル", base: 6, type: "none", star: 3, },
 ],
 
 };

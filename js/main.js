@@ -3,26 +3,27 @@ import * as GAME from "./game.js";
 import * as UI from "./ui.js";
 import * as STAB from "./stab.js";
 
-document.getElementById("retryButton").addEventListener("click", GAME.retryBattle);
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", async () => {
     UI.addLog(CONFIG.INIT_START);
 
-    // カードクリックイベント作成
+    // カードクリックイベント
     UI.setupMineCardClickEvents();
 
-    // オープンカード選択ボタンイベント作成
-    document.getElementById("cardDecision").addEventListener("click", () => {
-        GAME.processDecision();
-    });
+    // 決定ボタン
+    document.getElementById("cardDecision")
+        .addEventListener("click", GAME.processDecision);
 
-    // ここに初期表示・初期設定などを書く
-    // await も使える
+    // ★ 再戦ボタン（バトル後のみ有効）
+    document.getElementById("retryButton")
+        .addEventListener("click", GAME.retryBattle);
+
+    // ★ リタイアボタン（バトル中のみ有効）
+    document.getElementById("retireButton")
+        .addEventListener("click", GAME.retireBattle);
 
     UI.addLog(CONFIG.INIT_END);
 
     // ゲーム開始
     GAME.setupGame();
-
-    UI.addLog(CONFIG.TURN_DISP(STAB.gameState.turn));
 });

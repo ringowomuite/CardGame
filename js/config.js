@@ -14,7 +14,7 @@ export const GAME_START = "===ゲーム開始===";
 export const GAME_END = "===ゲーム終了===";
 export const GAME_START_NEW = "=== 新しいバトルを開始 ===";
 export const HAND_SET_END = "手札セット完了";
-export const CONFIRM_DECISION = "これで決定しますか？";
+export const CARD_DECISION = "こちらのカードで対戦します。　　　　　　　よろしいですか？";
 
 // バトル中使用
 export const CARD_JUDGE_WIN = (playerName) =>

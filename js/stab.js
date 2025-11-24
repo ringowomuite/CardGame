@@ -1,21 +1,36 @@
+// Player クラス
+export class Player {
+    constructor(name, hand = []) {
+        this.name = name;
+        this.hand = hand;
+        this.point = 0;
+    }
+
+    setHand(hand) {
+        this.hand = hand;
+        this.hand.forEach(c => c.used = false);
+    }
+
+    addPoint() {
+        this.point++;
+    }
+
+    reset(name, hand = []) {
+        this.name = name;
+        this.hand = hand;
+        this.point = 0;
+    }
+}
+
+// ----------------------------------------------------
+// gameState をプレイヤー2人で管理
+// ----------------------------------------------------
+
 import * as CARD from "./card.js";
-
-export function choiceCards() {
-    // バニラ5枚を deep copy して返す
-    // 1枚ずつ {...card} で独立オブジェクトにする
-    return CARD.cards.map(card => ({ ...card }));
-}
-
-export function choiceCards2() {
-    // バニラ5枚を deep copy して返す
-    // 1枚ずつ {...card} で独立オブジェクトにする
-    return CARD.cards2.map(card => ({ ...card }));
-}
 
 export const gameState = {
     turn: 1,
-    minePoint: 0,
-    enemyPoint: 0,
-    mineHand: [],
-    enemyHand: [],
+
+    mine: new Player("自分", CARD.choice("max")),
+    enemy: new Player("敵", CARD.choice("normal")),
 };

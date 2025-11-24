@@ -47,26 +47,15 @@ export async function cardJudge(mineCard, enemyCard, mineIndex, enemyIndex) {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     if (minePower > enemyPower) {
-
-        gameState.minePoint++;
-        UI.updatePoint(gameState.minePoint, CONFIG.MINE);
-
-        alert(CONFIG.CARD_JUDGE_WIN(UI.MINE_NAME));
-        UI.addLog(CONFIG.CARD_JUDGE_WIN(UI.MINE_NAME));
+        addPoint(CONFIG.MINE, UI.MINE_NAME);
 
     } else if (minePower < enemyPower) {
-
-        gameState.enemyPoint++;
-        UI.updatePoint(gameState.enemyPoint, CONFIG.ENEMY);
-
-        alert(CONFIG.CARD_JUDGE_WIN(UI.ENEMY_NAME));
-        UI.addLog(CONFIG.CARD_JUDGE_WIN(UI.ENEMY_NAME));
+        addPoint(CONFIG.ENEMY, UI.ENEMY_NAME);
 
     } else {
         alert(CONFIG.CARD_JUDGE_DROW);
         UI.addLog(CONFIG.CARD_JUDGE_DROW);
     }
-
 
     // 勝利条件
     if (gameState.minePoint === CONFIG.WIN_POINT ||
@@ -96,18 +85,12 @@ export function nextTurn() {
 export function endGame() {
     UI.addLog(CONFIG.GAME_END);
 
-    const winner =
-        gameState.minePoint === gameState.enemyPoint
-            ? UI.MINE_NAME
-            : (gameState.minePoint > gameState.enemyPoint ? UI.MINE_NAME : UI.ENEMY_NAME);
-
+    const winner = getWinner();
     UI.addLog(CONFIG.BATTLE_JUDGE_WIN(winner, gameState.minePoint, gameState.enemyPoint));
 
     // バトル終了後：手札を全て非活性
     UI.disableAllHandCards();
 }
-
-
 
 // ――― プレイヤーのカード選択 → 判定まで ―――
 export function processDecision() {
@@ -167,4 +150,26 @@ export function retryBattle() {
     UI.enableAllHandCards();
     UI.hideRetryButton();
 
+}
+
+function getWinner() {
+    // 引き分け → 親（今回は常に MINE が親）
+    if (gameState.minePoint === gameState.enemyPoint) {
+        return UI.MINE_NAME;
+    }
+
+    return gameState.minePoint > gameState.enemyPoint
+        ? UI.MINE_NAME
+        : UI.ENEMY_NAME;
+}
+
+function addPoint(playerType, playerName) {
+    const key = playerType === CONFIG.MINE ? "minePoint" : "enemyPoint";
+
+    gameState[key]++;
+    UI.updatePoint(gameState[key], playerType);
+
+    const msg = CONFIG.CARD_JUDGE_WIN(playerName);
+    alert(msg);
+    UI.addLog(msg);
 }

@@ -13,36 +13,37 @@ let selectedMineIndex = null;
 
 // 手札5枚をUIに描写する(スタンバイフェーズ)
 // 使用できるカードのみを描写
-
 export function renderHand(hand, playerType) {
-    for (let i = 0; i < hand.length; i++) {
-        const card = hand[i];
+    hand.forEach((card, i) => {
         const slot = document.getElementById(`${playerType}Slot${i}`);
+        if (!slot) return;
 
-        if (!slot) continue;
+        setHandSlot(slot, card);
 
-        if (!card) continue; // null は想定しない
-
-        // カード表示（used でも非表示にはしない）
-        slot.style.visibility = "visible";
-
-        slot.querySelector(".card-name-area").textContent = card.name;
-        // ★ スキル表示（将来の拡張用。今は空欄でもOK）
-        slot.querySelector(".card-skill-area").textContent =
-            card.skill ? formatSkillText(card.skill) : "";
-        slot.querySelector(".base-power-area").textContent = card.base;
-        slot.querySelector(".total-power-area").textContent = "";
-
-        // ★ 使用済みなら薄くする
+        // 使用済みなら非活性
         if (card.used) {
             slot.style.opacity = "0.3";
-            slot.style.pointerEvents = "none"; // クリック不可
+            slot.style.pointerEvents = "none";
         } else {
             slot.style.opacity = "1.0";
             slot.style.pointerEvents = "auto";
         }
-    }
+    });
+
     clearMineSelection();
+}
+
+// 手札の添え字番目にカードをセットする
+function setHandSlot(slot, card) {
+    slot.style.visibility = "visible";
+
+    slot.querySelector(".card-name-area").textContent = card.name;
+    slot.querySelector(".card-skill-area").textContent =
+        card.skill ? formatSkillText(card.skill) : "";
+    slot.querySelector(".base-power-area").textContent = card.base;
+
+    // 開いてない状態なので total は空欄
+    slot.querySelector(".total-power-area").textContent = "";
 }
 
 // オープンカードを表示する
@@ -153,65 +154,41 @@ function formatSkillText(skill) {
 
 // バトル終了後、手札を非活性にする
 export function disableAllHandCards() {
-    // 自分の手札
-    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
-        const mineSlot = document.getElementById(`mineSlot${i}`);
-        if (mineSlot) {
-            mineSlot.style.opacity = "0.3";
-            mineSlot.style.pointerEvents = "none";
-        }
-    }
+    document.querySelectorAll(".hand-slot").forEach(slot => {
+        setCardSlotEnabled(slot, false);
+    });
 
-    // 敵の手札（必要なら）
-    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
-        const enemySlot = document.getElementById(`enemySlot${i}`);
-        if (enemySlot) {
-            enemySlot.style.opacity = "0.3";
-            enemySlot.style.pointerEvents = "none";
-        }
-    }
-
-    // 決定ボタンも押せないようにする
-    const btn = document.getElementById("cardDecision");
-    if (btn) {
-        btn.disabled = true;
-        btn.classList.remove("active");
-    }
+    enableDecisionButton(false); // 決定ボタンも無効化
 }
 
+// 再戦時、手札を活性にする
+export function enableAllHandCards() {
+    document.querySelectorAll(".mine .hand-slot").forEach(slot => {
+        setCardSlotEnabled(slot, true);
+        slot.classList.remove("used");
+    });
+}
 
 // 再戦時、ログをクリアする
 export function clearLog() {
     document.querySelector(".log-box").innerHTML = "";
 }
 
-// 再戦ボタンの非表示にする
+// 再戦ボタンを非表示にする
 export function hideRetryButton() {
     document.getElementById("retryButton").style.visibility = "hidden";
 }
 
-// 再戦時、手札を活性にする
-export function enableAllHandCards() {
-    document.querySelectorAll(".mine .card-slot").forEach(el => {
-        el.style.opacity = 1;
-        el.disabled = false;
-        el.classList.remove("used");
-    });
-}
-
 // アクションエリアを表示する
 export function showActionArea(type = "card") {
-    switch (type) {
-        case "card":
-            document.getElementById("actionTextArea").textContent = CONFIG.CARD_DECISION;
+    if (type === "card") {
+        toggleActionArea(true, CONFIG.CARD_DECISION);
     }
-    document.querySelector(".battle-left-area").style.visibility = "visible";
 }
 
 // アクションエリアを非表示にする
 export function hideActionArea() {
-    document.getElementById("actionTextArea").textContent = "";
-    document.querySelector(".battle-left-area").style.visibility = "hidden";
+    toggleActionArea(false);
 }
 
 // 決定ボタンの活性制御
@@ -243,4 +220,17 @@ function setOpenCardFields(openCard, card, playerType) {
 
     openCard.querySelector(".total-power-area").textContent =
         isClear ? "" : applySkill(card, playerType);
+}
+
+function setCardSlotEnabled(slot, enabled) {
+    slot.style.opacity = enabled ? "1.0" : "0.3";
+    slot.style.pointerEvents = enabled ? "auto" : "none";
+}
+
+function toggleActionArea(show, text = "") {
+    const area = document.querySelector(".battle-left-area");
+    const textArea = document.getElementById("actionTextArea");
+
+    textArea.textContent = show ? text : "";
+    area.style.visibility = show ? "visible" : "hidden";
 }

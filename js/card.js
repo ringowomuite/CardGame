@@ -1,4 +1,5 @@
-export const cards = [
+export const decks = {
+ normal: [
   {
     id: 1, name: "シングルああああああああ", base: 1, type: "none",
     skill: {
@@ -49,12 +50,18 @@ export const cards = [
       plus: 1
     }
   },
-];
+],
 
-export const cards2 = [
+max: [
   { id: 1, name: "セクスタプル", base: 6, type: "none" },
   { id: 2, name: "セクスタプル", base: 6, type: "none" },
   { id: 3, name: "セクスタプル", base: 6, type: "none" },
   { id: 4, name: "セクスタプル", base: 6, type: "none" },
   { id: 5, name: "セクスタプル", base: 6, type: "none" },
-];
+],
+
+};
+
+export function choice(deckName) {
+    return decks[deckName].map(c => ({ ...c }));
+}

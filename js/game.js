@@ -1,5 +1,6 @@
 import * as CONFIG from "./config.js";
 import * as STAB from "./stab.js";
+import * as CARD from "./card.js";
 import * as UI from "./ui.js";
 import { applySkill } from "./skill.js";
 import { gameState } from "./stab.js";
@@ -18,8 +19,8 @@ export function setupGame() {
     UI.addLog(CONFIG.GAME_START);
 
     // 固定のカード5枚配布
-    gameState.enemyHand = STAB.choiceCards();
-    gameState.mineHand = STAB.choiceCards2();
+    gameState.mineHand = CARD.choice("max");
+    gameState.enemyHand = CARD.choice("normal");
 
     // UI 反映
     UI.renderHand(gameState.mineHand, CONFIG.MINE);
@@ -93,27 +94,14 @@ export function nextTurn() {
 
 // ゲーム終了処理
 export function endGame() {
-
     UI.addLog(CONFIG.GAME_END);
 
-    if (gameState.minePoint > gameState.enemyPoint) {
+    const winner =
+        gameState.minePoint === gameState.enemyPoint
+            ? UI.MINE_NAME
+            : (gameState.minePoint > gameState.enemyPoint ? UI.MINE_NAME : UI.ENEMY_NAME);
 
-        UI.addLog(
-            CONFIG.BATTLE_JUDGE_WIN(UI.MINE_NAME, gameState.minePoint, gameState.enemyPoint)
-        );
-
-    } else if (gameState.minePoint < gameState.enemyPoint) {
-
-        UI.addLog(
-            CONFIG.BATTLE_JUDGE_WIN(UI.ENEMY_NAME, gameState.minePoint, gameState.enemyPoint)
-        );
-
-    } else {
-
-        UI.addLog(
-            CONFIG.BATTLE_JUDGE_DROW(UI.MINE_NAME, gameState.minePoint, gameState.enemyPoint)
-        );
-    }
+    UI.addLog(CONFIG.BATTLE_JUDGE_WIN(winner, gameState.minePoint, gameState.enemyPoint));
 
     // バトル終了後：手札を全て非活性
     UI.disableAllHandCards();
@@ -159,13 +147,13 @@ export function retryBattle() {
     gameState.turn = 1;
     gameState.minePoint = 0;
     gameState.enemyPoint = 0;
-    gameState.mineHand = STAB.choiceCards2();
-    gameState.enemyHand = STAB.choiceCards();
+    gameState.mineHand = CARD.choice("max");
+    gameState.enemyHand = CARD.choice("normal");
 
     // --- 2. UI 初期化 ---
     UI.clearLog();
     UI.addLog(CONFIG.GAME_START_NEW);
-    
+
     UI.updateTurn(gameState.turn);
     UI.updatePoint(0, CONFIG.MINE);
     UI.updatePoint(0, CONFIG.ENEMY);

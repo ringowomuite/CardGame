@@ -8,6 +8,9 @@ let enemyNameElement = document.getElementById("enemyName");
 export const MINE_NAME = mineNameElement.textContent;
 export const ENEMY_NAME = enemyNameElement.textContent;
 
+// 自分が選択したカードの添え字
+let selectedMineIndex = null;
+
 // 手札5枚をUIに描写する(スタンバイフェーズ)
 // 使用できるカードのみを描写
 
@@ -42,19 +45,12 @@ export function renderHand(hand, playerType) {
     clearMineSelection();
 }
 
+// オープンカードを表示する
 export function renderOpenCard(card, playerType) {
     const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
     const openCard = document.getElementById(`open${key}Card`);
 
-    openCard.querySelector(".card-name-area").textContent = card.name;
-    // ★ スキル表示（将来の拡張用。今は空欄でもOK）
-    openCard.querySelector(".card-skill-area").textContent =
-        card.skill ? formatSkillText(card.skill) : "";
-    // ◆ 基礎攻撃力
-    openCard.querySelector(".base-power-area").textContent = card.base;
-    // ★ 合計攻撃力（スキル適用後）
-    const total = applySkill(card, playerType);
-    openCard.querySelector(".total-power-area").textContent = total;
+    setOpenCardFields(openCard, card, playerType);
 }
 
 // 次ターンのためにオープンカードを消す
@@ -62,10 +58,7 @@ export function clearOpenArea(playerType) {
     const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
     const openCard = document.getElementById(`open${key}Card`);
 
-    openCard.querySelector(".card-name-area").textContent = "";
-    openCard.querySelector(".card-skill-area").textContent = "";
-    openCard.querySelector(".base-power-area").textContent = "";
-    openCard.querySelector(".total-power-area").textContent = "";
+    setOpenCardFields(openCard, null, playerType);
 }
 
 // ポイント更新
@@ -97,20 +90,7 @@ export function updateTurn(afterTurn) {
     clearOpenArea(CONFIG.ENEMY);
 }
 
-// 自分が選択したカードの添え字
-let selectedMineIndex = null;
 
-// 決定ボタンの活性制御
-export function enableDecisionButton(enable) {
-    const btn = document.getElementById("cardDecision");
-    if (enable) {
-        btn.disabled = false;
-        btn.classList.add("active");
-    } else {
-        btn.disabled = true;
-        btn.classList.remove("active");
-    }
-}
 
 // カードクリックイベント
 export function setupMineCardClickEvents() {
@@ -148,10 +128,12 @@ export function clearMineSelection() {
     hideActionArea();
 }
 
+// 選択中カードの添え字を返却する
 export function getSelectedMineIndex() {
     return selectedMineIndex;
 }
 
+// ログを表示する
 export function addLog(text) {
     const logBox = document.querySelector(".log-box");
     const p = document.createElement("div");
@@ -162,12 +144,14 @@ export function addLog(text) {
     logBox.scrollTop = logBox.scrollHeight;
 }
 
+// スキル内容表示欄に表示するテキストの作成
 function formatSkillText(skill) {
     if (skill.plus) return `攻撃力 +${skill.plus}`;
     if (skill.minus) return `攻撃力 -${skill.minus}`;
     return "";
 }
 
+// バトル終了後、手札を非活性にする
 export function disableAllHandCards() {
     // 自分の手札
     for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
@@ -195,14 +179,18 @@ export function disableAllHandCards() {
     }
 }
 
+
+// 再戦時、ログをクリアする
 export function clearLog() {
     document.querySelector(".log-box").innerHTML = "";
 }
 
+// 再戦ボタンの非表示にする
 export function hideRetryButton() {
     document.getElementById("retryButton").style.visibility = "hidden";
 }
 
+// 再戦時、手札を活性にする
 export function enableAllHandCards() {
     document.querySelectorAll(".mine .card-slot").forEach(el => {
         el.style.opacity = 1;
@@ -211,6 +199,7 @@ export function enableAllHandCards() {
     });
 }
 
+// アクションエリアを表示する
 export function showActionArea(type = "card") {
     switch (type) {
         case "card":
@@ -219,7 +208,39 @@ export function showActionArea(type = "card") {
     document.querySelector(".battle-left-area").style.visibility = "visible";
 }
 
+// アクションエリアを非表示にする
 export function hideActionArea() {
     document.getElementById("actionTextArea").textContent = "";
     document.querySelector(".battle-left-area").style.visibility = "hidden";
+}
+
+// 決定ボタンの活性制御
+export function enableDecisionButton(enable) {
+    const btn = document.getElementById("cardDecision");
+    if (enable) {
+        btn.disabled = false;
+        btn.classList.add("active");
+    } else {
+        btn.disabled = true;
+        btn.classList.remove("active");
+    }
+}
+
+// オープンカードテキストの表示制御を行う
+function setOpenCardFields(openCard, card, playerType) {
+
+    // null または undefined の場合はクリアとして扱う
+    const isClear = !card;
+
+    openCard.querySelector(".card-name-area").textContent =
+        isClear ? "" : card.name;
+
+    openCard.querySelector(".card-skill-area").textContent =
+        isClear ? "" : (card.skill ? formatSkillText(card.skill) : "");
+
+    openCard.querySelector(".base-power-area").textContent =
+        isClear ? "" : card.base;
+
+    openCard.querySelector(".total-power-area").textContent =
+        isClear ? "" : applySkill(card, playerType);
 }

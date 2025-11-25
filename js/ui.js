@@ -224,10 +224,8 @@ function toggleActionArea(show, text = "") {
     area.style.visibility = show ? "visible" : "hidden";
 }
 
-export function setRetryEnabled(enabled) {
-    document.getElementById("retryButton").disabled = !enabled;
-}
-
-export function setRetireEnabled(enabled) {
-    document.getElementById("retireButton").disabled = !enabled;
+// バトル中ならリタイアボタン、バトル外なら再戦ボタンを活性とする
+export function updateBattleButtons(isBattle) {
+    document.getElementById("retryButton").disabled = isBattle;
+    document.getElementById("retireButton").disabled = !isBattle;
 }

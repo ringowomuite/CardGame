@@ -39,8 +39,6 @@ function getRandomEnemyIndex() {
 
 // ゲーム開始：手札作成 + UI
 export function setupGame() {
-    UI.setRetryEnabled(false);
-    UI.setRetireEnabled(true);
 
     gameState.turn = 1;
     gameState.mine.reset(UI.MINE_NAME, CARD.choice("max"));
@@ -55,8 +53,7 @@ export function setupGame() {
     UI.updatePoint(0, CONFIG.MINE);
     UI.updatePoint(0, CONFIG.ENEMY);
 
-    UI.setRetireEnabled(true);
-    UI.setRetryEnabled(false);
+    UI.updateBattleButtons(true);
 
     UI.addLog(CONFIG.HAND_SET_END);
     UI.updateTurn(gameState.turn);
@@ -124,8 +121,7 @@ export function endGame() {
     UI.disableAllHandCards();
 
     // バトル後：再戦ボタンON、リタイアOFF
-    UI.setRetryEnabled(true);
-    UI.setRetireEnabled(false);
+    UI.updateBattleButtons(false);
 }
 
 // プレイヤーのカード選択 → 判定まで
@@ -151,8 +147,7 @@ export function retireBattle() {
 
     UI.disableAllHandCards();
 
-    UI.setRetryEnabled(true);
-    UI.setRetireEnabled(false);
+    UI.updateBattleButtons(false);
 }
 
 // 再戦
@@ -177,6 +172,5 @@ export function retryBattle() {
     UI.enableAllHandCards();
 
     // 再戦開始：リタイアON、再戦OFF
-    UI.setRetireEnabled(true);
-    UI.setRetryEnabled(false);
+    UI.updateBattleButtons(true);
 }

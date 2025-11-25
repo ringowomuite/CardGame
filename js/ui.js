@@ -51,22 +51,110 @@ export function renderOpenCard(card, playerType) {
     const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
     const openCard = document.getElementById(`open${key}Card`);
 
-    // レアリティ反映
-    openCard.classList.remove("no-hover","star1","star2","star3","star4","star5");
-    openCard.classList.add("star" + card.star);
-
+    openCard.classList.remove("star1","star2","star3","star4","star5");
+    // cardがnullの場合、オープンカードをクリアする
+    if (!card) {
+        openCard.classList.add("no-hover");
+    } else {
+        // レアリティ反映
+        openCard.classList.remove("no-hover");
+        openCard.classList.add("star" + card.star);
+    }
     setOpenCardFields(openCard, card, playerType);
 }
 
-// オープンカード消去
-export function clearOpenArea(playerType) {
-    const key = playerType === CONFIG.MINE ? "Mine" : "Enemy";
-    const openCard = document.getElementById(`open${key}Card`);
+// オープンカード文字設定
+function setOpenCardFields(openCard, card, playerType) {
+    const isClear = !card;
 
-    openCard.classList.add("no-hover");
-    openCard.classList.remove("star1","star2","star3","star4","star5");
+    openCard.querySelector(".card-name-area").textContent =
+        isClear ? "" : card.name;
 
-    setOpenCardFields(openCard, null, playerType);
+    openCard.querySelector(".card-skill-area").textContent =
+        isClear ? "" : (card.skill ? formatSkillText(card.skill) : "");
+
+    openCard.querySelector(".base-power-area").textContent =
+        isClear ? "" : card.base;
+
+    openCard.querySelector(".total-power-area").textContent =
+        isClear ? "" : applySkill(card, playerType);
+}
+
+// カードクリック
+export function setupMineCardClickEvents() {
+    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
+        const slot = document.getElementById(`mineSlot${i}`);
+
+        slot.addEventListener("click", () => {
+            // 同じカードの場合、選択解除してボタン非活性
+            if (selectedMineIndex === i) {
+                clearMineSelection();
+                toggleActionArea(false);
+                return;
+            }
+
+            clearMineSelection();
+            slot.classList.add("selected");
+            selectedMineIndex = i;
+
+            toggleActionArea(true);
+            toggleDecisionButton(true);
+        });
+    }
+}
+
+// 選択解除
+export function clearMineSelection() {
+    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
+        const slot = document.getElementById(`mineSlot${i}`);
+        slot.classList.remove("selected");
+    }
+
+    selectedMineIndex = null;
+    toggleActionArea(false);
+    toggleDecisionButton(false);
+}
+
+// 全カード無効化
+export function disableAllHandCards() {
+    document.querySelectorAll(".hand-slot").forEach(slot => {
+        setCardSlotEnabled(slot, false);
+    });
+
+    clearMineSelection();
+    toggleDecisionButton(false);
+}
+
+// カードの活性状態に応じてスタイル変更
+function setCardSlotEnabled(slot, enabled) {
+    slot.style.opacity = enabled ? "1.0" : "0.3";
+    slot.style.pointerEvents = enabled ? "auto" : "none";
+}
+
+// 決定ボタン表示制御
+export function toggleDecisionButton(enable) {
+    const btn = document.getElementById("cardDecision");
+    btn.disabled = !enable;
+    btn.classList.toggle("active", enable);
+}
+
+// アクションエリア表示制御
+function toggleActionArea(show, type = "card") {
+    let text = "";
+    if (type === "card") {
+        text = CONFIG.CARD_DECISION;
+    }
+    const area = document.querySelector(".battle-left-area");
+    const textArea = document.getElementById("actionTextArea");
+
+    textArea.textContent = show ? text : "";
+    area.style.visibility = show ? "visible" : "hidden";
+}
+
+// バトル中ならリタイアボタン、バトル外なら再戦ボタンを活性とする
+export function updateBattleButtons(isBattle) {
+    document.getElementById("retryButton").disabled = isBattle;
+    document.getElementById("retireButton").disabled = !isBattle;
 }
 
 // ポイント更新
@@ -87,47 +175,18 @@ export function updateTurn(afterTurn) {
     let beforeTurnArea = document.getElementById("turn");
     addLog(CONFIG.TURN_DISP(afterTurn));
     beforeTurnArea.textContent = afterTurn;
-
-    clearOpenArea(CONFIG.MINE);
-    clearOpenArea(CONFIG.ENEMY);
 }
 
-// カードクリック
-export function setupMineCardClickEvents() {
-    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
-        const slot = document.getElementById(`mineSlot${i}`);
-
-        slot.addEventListener("click", () => {
-            if (selectedMineIndex === i) {
-                clearMineSelection();
-                hideActionArea();
-                return;
-            }
-
-            clearMineSelection();
-            slot.classList.add("selected");
-            selectedMineIndex = i;
-
-            showActionArea();
-            enableDecisionButton(true);
-        });
-    }
-}
-
-// 選択解除
-export function clearMineSelection() {
-    for (let i = 0; i < CONFIG.HAND_SIZE; i++) {
-        const slot = document.getElementById(`mineSlot${i}`);
-        slot.classList.remove("selected");
-    }
-
-    selectedMineIndex = null;
-    enableDecisionButton(false);
-    hideActionArea();
-}
-
+// 選択中の手札の添え字を返却
 export function getSelectedMineIndex() {
     return selectedMineIndex;
+}
+
+// スキルテキスト
+function formatSkillText(skill) {
+    if (skill.plus) return `攻撃力 +${skill.plus}`;
+    if (skill.minus) return `攻撃力 -${skill.minus}`;
+    return "";
 }
 
 // ログ
@@ -139,83 +198,7 @@ export function addLog(text) {
     logBox.scrollTop = logBox.scrollHeight;
 }
 
-// スキルテキスト
-function formatSkillText(skill) {
-    if (skill.plus) return `攻撃力 +${skill.plus}`;
-    if (skill.minus) return `攻撃力 -${skill.minus}`;
-    return "";
-}
-
-// 全カード無効化
-export function disableAllHandCards() {
-    document.querySelectorAll(".hand-slot").forEach(slot => {
-        setCardSlotEnabled(slot, false);
-    });
-
-    enableDecisionButton(false);
-}
-
 // ログクリア
 export function clearLog() {
     document.querySelector(".log-box").innerHTML = "";
-}
-
-// 再戦ボタン非表示
-export function hideRetryButton() {
-    document.getElementById("retryButton").style.visibility = "hidden";
-}
-
-// アクション表示
-export function showActionArea(type = "card") {
-    if (type === "card") {
-        toggleActionArea(true, CONFIG.CARD_DECISION);
-    }
-}
-
-// アクション非表示
-export function hideActionArea() {
-    toggleActionArea(false);
-}
-
-// 決定ボタン
-export function enableDecisionButton(enable) {
-    const btn = document.getElementById("cardDecision");
-    btn.disabled = !enable;
-    btn.classList.toggle("active", enable);
-}
-
-// 汎用：オープンカード文字設定
-function setOpenCardFields(openCard, card, playerType) {
-    const isClear = !card;
-
-    openCard.querySelector(".card-name-area").textContent =
-        isClear ? "" : card.name;
-
-    openCard.querySelector(".card-skill-area").textContent =
-        isClear ? "" : (card.skill ? formatSkillText(card.skill) : "");
-
-    openCard.querySelector(".base-power-area").textContent =
-        isClear ? "" : card.base;
-
-    openCard.querySelector(".total-power-area").textContent =
-        isClear ? "" : applySkill(card, playerType);
-}
-
-function setCardSlotEnabled(slot, enabled) {
-    slot.style.opacity = enabled ? "1.0" : "0.3";
-    slot.style.pointerEvents = enabled ? "auto" : "none";
-}
-
-function toggleActionArea(show, text = "") {
-    const area = document.querySelector(".battle-left-area");
-    const textArea = document.getElementById("actionTextArea");
-
-    textArea.textContent = show ? text : "";
-    area.style.visibility = show ? "visible" : "hidden";
-}
-
-// バトル中ならリタイアボタン、バトル外なら再戦ボタンを活性とする
-export function updateBattleButtons(isBattle) {
-    document.getElementById("retryButton").disabled = isBattle;
-    document.getElementById("retireButton").disabled = !isBattle;
 }

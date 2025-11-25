@@ -14,20 +14,22 @@ export function setupGame() {
     UI.renderHand(gameState.mine.hand, CONFIG.MINE);
     UI.renderHand(gameState.enemy.hand, CONFIG.ENEMY);
 
-    initBattleUI();
-
-    UI.addLog(CONFIG.GAME_START);
     UI.addLog(CONFIG.HAND_SET_END);
+    UI.addLog(CONFIG.GAME_START);
+
+    initBattleUI();
 }
 
 // 初期化共通UI
-function initBattleUI() {
-    UI.clearLog();
+function initBattleUI(retryFlg) {
+    if (retryFlg) {
+        UI.clearLog();
+    }
     UI.updatePoint(0, CONFIG.MINE);
     UI.updatePoint(0, CONFIG.ENEMY);
 
-    UI.clearOpenArea(CONFIG.MINE);
-    UI.clearOpenArea(CONFIG.ENEMY);
+    UI.renderOpenCard(null, CONFIG.MINE);
+    UI.renderOpenCard(null, CONFIG.ENEMY);
 
     gameState.turn = 1;
     UI.updateTurn(gameState.turn);
@@ -54,6 +56,10 @@ export async function processDecision() {
 
     // ターン表示更新
     nextTurn();
+
+    // オープンカードクリア
+    UI.renderOpenCard(null, CONFIG.MINE);
+    UI.renderOpenCard(null, CONFIG.ENEMY);
 }
 
 // 生存している敵カードからランダム選択
@@ -164,6 +170,6 @@ export function retryBattle() {
     UI.renderHand(gameState.mine.hand, CONFIG.MINE);
     UI.renderHand(gameState.enemy.hand, CONFIG.ENEMY);
 
-    initBattleUI();
+    initBattleUI(true);
     UI.addLog(CONFIG.GAME_START_NEW);
 }

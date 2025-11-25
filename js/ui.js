@@ -20,11 +20,9 @@ export function renderHand(hand, playerType) {
 
         // 使用済みなら非活性
         if (card.used) {
-            slot.style.opacity = "0.3";
-            slot.style.pointerEvents = "none";
+            setCardSlotEnabled(slot, false);
         } else {
-            slot.style.opacity = "1.0";
-            slot.style.pointerEvents = "auto";
+            setCardSlotEnabled(slot, true);
         }
     });
 
@@ -155,14 +153,6 @@ export function disableAllHandCards() {
     });
 
     enableDecisionButton(false);
-}
-
-// 再戦時、手札を活性にする
-export function enableAllHandCards() {
-    document.querySelectorAll(".mine .hand-slot").forEach(slot => {
-        setCardSlotEnabled(slot, true);
-        slot.classList.remove("used");
-    });
 }
 
 // ログクリア

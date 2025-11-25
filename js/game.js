@@ -11,19 +11,28 @@ export function setupGame() {
     gameState.mine.reset(UI.MINE_NAME, CARD.choice("max"));
     gameState.enemy.reset(UI.ENEMY_NAME, CARD.choice("normal"));
 
-    UI.clearLog();
-    UI.addLog(CONFIG.GAME_START);
-
     UI.renderHand(gameState.mine.hand, CONFIG.MINE);
     UI.renderHand(gameState.enemy.hand, CONFIG.ENEMY);
 
+    initBattleUI();
+
+    UI.addLog(CONFIG.GAME_START);
+    UI.addLog(CONFIG.HAND_SET_END);
+}
+
+// 初期化共通UI
+function initBattleUI() {
+    UI.clearLog();
     UI.updatePoint(0, CONFIG.MINE);
     UI.updatePoint(0, CONFIG.ENEMY);
 
-    UI.updateBattleButtons(true);
+    UI.clearOpenArea(CONFIG.MINE);
+    UI.clearOpenArea(CONFIG.ENEMY);
 
-    UI.addLog(CONFIG.HAND_SET_END);
+    gameState.turn = 1;
     UI.updateTurn(gameState.turn);
+
+    UI.updateBattleButtons(true);
 }
 
 // 決定ボタンから発火するイベント
@@ -91,6 +100,19 @@ export async function cardJudge(mineCard, enemyCard, mineIndex, enemyIndex) {
     }
 }
 
+// 共通：ポイント加算
+function addPoint(playerType) {
+    const player = playerType === CONFIG.MINE ? gameState.mine : gameState.enemy;
+    const playerName = playerType === CONFIG.MINE ? UI.MINE_NAME : UI.ENEMY_NAME;
+
+    player.addPoint();
+    UI.updatePoint(player.point, playerType);
+
+    const msg = CONFIG.CARD_JUDGE_WIN(playerName);
+    alert(msg);
+    UI.addLog(msg);
+}
+
 // ターン表示更新
 export function nextTurn() {
     gameState.turn++;
@@ -127,19 +149,6 @@ function getWinner() {
         : UI.ENEMY_NAME;
 }
 
-// 共通：ポイント加算
-function addPoint(playerType) {
-    const player = playerType === CONFIG.MINE ? gameState.mine : gameState.enemy;
-    const playerName = playerType === CONFIG.MINE ? UI.MINE_NAME : UI.ENEMY_NAME;
-
-    player.addPoint();
-    UI.updatePoint(player.point, playerType);
-
-    const msg = CONFIG.CARD_JUDGE_WIN(playerName);
-    alert(msg);
-    UI.addLog(msg);
-}
-
 // リタイア
 export function retireBattle() {
     endGame(true);
@@ -155,21 +164,6 @@ export function retryBattle() {
     UI.renderHand(gameState.mine.hand, CONFIG.MINE);
     UI.renderHand(gameState.enemy.hand, CONFIG.ENEMY);
 
-    // ログの初期化
-    UI.clearLog();
-    // ターン表示の初期化
-    gameState.turn = 1;
-    UI.updateTurn(gameState.turn);
+    initBattleUI();
     UI.addLog(CONFIG.GAME_START_NEW);
-
-    // ポイントの初期化
-    UI.updatePoint(0, CONFIG.MINE);
-    UI.updatePoint(0, CONFIG.ENEMY);
-
-    // オープンエリアの初期化
-    UI.clearOpenArea(CONFIG.MINE);
-    UI.clearOpenArea(CONFIG.ENEMY);
-
-    // 再戦開始：リタイアON、再戦OFF
-    UI.updateBattleButtons(true);
 }

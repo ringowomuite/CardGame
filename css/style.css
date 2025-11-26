@@ -81,7 +81,7 @@ body {
 .card-name-area {
     text-align: center;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
 
     height: 40px;              /* 名前エリアの高さ（調整可） */
     padding: 0 4px;

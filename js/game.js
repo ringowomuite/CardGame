@@ -8,7 +8,7 @@ import { gameState } from "./stab.js";
 export function setupGame() {
 
     gameState.turn = 1;
-    gameState.mine.reset(UI.MINE_NAME, CARD.choice("max"));
+    gameState.mine.reset(UI.MINE_NAME, CARD.choice("dice"));
     gameState.enemy.reset(UI.ENEMY_NAME, CARD.choice("normal"));
 
     UI.renderHand(gameState.mine.hand, CONFIG.MINE);
@@ -163,7 +163,7 @@ export function retireBattle() {
 // 再戦
 export function retryBattle() {
     // 手札の初期化
-    gameState.mine.reset(UI.MINE_NAME, CARD.choice("max"));
+    gameState.mine.reset(UI.MINE_NAME, CARD.choice("dice"));
     gameState.enemy.reset(UI.ENEMY_NAME, CARD.choice("normal"));
 
     // 手札の表示

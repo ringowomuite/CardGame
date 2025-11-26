@@ -1,27 +1,69 @@
 // skill.js
-export function applySkill(card, userType, mineState, enemyState) {
-    if (!card.skill) return card.base;
 
-    const s = card.skill;
-    let power = card.base;
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-    // 対象プレイヤーの判定
-    const isMine = (userType === "mine");
-    const targetIsMine = (s.target_player === "mine");
+export function applySkill(card, userType) {
+    if (!card || !card.skill) return card.base;
 
-    // 対象が自分か相手かを決定
-    const isTargetMine = (isMine === targetIsMine);
+    const skill = card.skill;
 
-    // 今回は openCard のみ
-    if (s.target_card !== "openCard") return power;
+    // --- 新形式 steps ---
+    if (Array.isArray(skill.steps)) {
 
-    // buff（四則演算対応）
-    if (s.type === "buff") {
-        if (s.plus) power += s.plus;
-        if (s.minus) power -= s.minus;
-        if (s.multi) power *= s.multi;
-        if (s.division) power /= s.division;
+        let power = card.base;
+
+        // ★ カードに乱数キャッシュを保持させる
+        if (!card._rng) card._rng = {};   // 乱数保管用のオブジェクト
+
+        for (const step of skill.steps) {
+
+            // ---- 条件 (ラッキーのみ) ----
+            if (step.if) {
+                const cond = step.if;
+                if (cond.variable === "dice" && cond.condition === "even") {
+
+                    // ★ dice の値をキャッシュして、同じ値を使う
+                    if (card._rng["ifDice"] == null) {
+                        card._rng["ifDice"] = randInt(cond.min, cond.max);
+                    }
+                    const d = card._rng["ifDice"];
+
+                    if (d % 2 !== 0) continue;
+                }
+            }
+
+            let value = 0;
+
+            // ---- dice（全サイコロ共通）----
+            if (step.variable === "dice") {
+
+                // ★ dice の値を乱数キャッシュから取得
+                if (card._rng["dice"] == null) {
+                    card._rng["dice"] = randInt(step.min, step.max);
+                }
+
+                value = card._rng["dice"];
+            }
+
+            // ---- 固定値 ----
+            else if (step.value != null) {
+                value = step.value;
+            }
+
+            // ---- 演算 ----
+            switch (step.op) {
+                case "add": power += value; break;
+                case "sub": power -= value; break;
+                case "mul": power *= value; break;
+                case "div": power /= value; break;
+            }
+        }
+
+        return Math.floor(power);
     }
 
-    return Math.floor(power);
+    // --- 旧形式（今は未使用） ---
+    return card.base;
 }

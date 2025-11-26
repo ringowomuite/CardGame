@@ -184,9 +184,7 @@ export function getSelectedMineIndex() {
 
 // スキルテキスト
 function formatSkillText(skill) {
-    if (skill.plus) return `攻撃力 +${skill.plus}`;
-    if (skill.minus) return `攻撃力 -${skill.minus}`;
-    return "";
+    return skill.text ? skill.text : "";
 }
 
 // ログ
